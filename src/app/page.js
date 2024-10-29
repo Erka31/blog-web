@@ -1,95 +1,94 @@
-import Image from "next/image";
-import styles from "./page.module.css";
+"use client";
+import Page2 from "./component/Hii";
+import { useState, useEffect } from "react";
+import { Parent } from "./components/page";
 
-export default function Home() {
+const Home = () => {
+  const [data, setData] = useState([]);
+  const [num, setNum] = useState(1);
+  const [searchItem, setSearchItem] = useState("");
+
+  useEffect(() => {
+    const api = async () => {
+      const fetchData = await fetch(
+        `https://dev.to/api/articles?per_page=9&page=${num}`
+      );
+      const jsonData = await fetchData.json();
+      console.log(jsonData);
+      setData(jsonData);
+    };
+    api();
+  }, [num]);
+
+  const filteredItems = data.filter((key, index) => {
+    const low1 = key.title.toLowerCase();
+    const low2 = searchItem.toLowerCase();
+    return low1.includes(low2);
+  });
+
+  const next = () => {
+    const next = num + 1;
+    setNum(next);
+  };
+
+  const previous = () => {
+    if (num <= 1) {
+    } else {
+      const previous = num - 1;
+      setNum(previous);
+    }
+  };
   return (
-    <div className={styles.page}>
-      <main className={styles.main}>
-        <Image
-          className={styles.logo}
-          src="https://nextjs.org/icons/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol>
-          <li>
-            Get started by editing <code>src/app/page.js</code>.
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
-
-        <div className={styles.ctas}>
-          <a
-            className={styles.primary}
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className={styles.logo}
-              src="https://nextjs.org/icons/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-            className={styles.secondary}
-          >
-            Read our docs
-          </a>
+    <Parent>
+      <div>
+        <h1 style={{ marginLeft: "15px" }}>All Blog Test</h1>
+        <div className="ui-input-container">
+          <input
+            onChange={(e) => setSearchItem(e.target.value)}
+            placeholder="Search..."
+            className="ui-input"
+            type="text"
+          />
+          <div className="ui-input-underline"></div>
+          <div className="ui-input-highlight"></div>
+          <div className="ui-input-icon">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24">
+              <path
+                strokeLinejoin="round"
+                strokeLinecap="round"
+                strokeWidth="2"
+                stroke="currentColor"
+                d="M21 21L16.65 16.65M19 11C19 15.4183 15.4183 19 11 19C6.58172 19 3 15.4183 3 11C3 6.58172 6.58172 3 11 3C15.4183 3 19 6.58172 19 11Z"></path>
+            </svg>
+          </div>
         </div>
-      </main>
-      <footer className={styles.footer}>
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+        <div className="body">
+          {filteredItems.length === 0 ? (
+            <p>Result not found.</p>
+          ) : (
+            filteredItems.map((ok, index) => <Page2 key={index} ok={ok} />)
+          )}
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              width: "1390px",
+            }}>
+            <button onClick={() => previous()} className="buttons2">
+              Previous
+            </button>
+            <div>{num}</div>
+            <button onClick={() => next()} className="buttons2">
+              Next
+            </button>
+          </div>
+        </div>
+      </div>
+    </Parent>
   );
-}
+};
+
+export default Home;
