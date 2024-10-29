@@ -1,7 +1,7 @@
 "use client";
-import Page2 from "./component/Hii";
+import Page2 from "./component/Card";
 import { useState, useEffect } from "react";
-import { Parent } from "./components/page";
+import { Parent } from "./providers/Header";
 
 const Home = () => {
   const [data, setData] = useState([]);

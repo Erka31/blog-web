@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import { Parent } from "../components/page";
+import { Parent } from "../providers/Header";
 const Page = () => {
   const [input1, setInput1] = useState("");
   const [error1, setError1] = useState(false);

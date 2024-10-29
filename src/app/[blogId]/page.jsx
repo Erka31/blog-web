@@ -1,7 +1,7 @@
 "use client";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
-import { Parent } from "../components/page";
+import { Parent } from "../providers/Header";
 
 const Page = () => {
   const [blog, setBlog] = useState("");

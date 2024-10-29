@@ -1,6 +1,6 @@
 "use client";
 import { useRouter } from "next/navigation";
-export const Parent = ({ children, props }) => {
+export const Parent = ({ children }) => {
   const router = useRouter();
   return (
     <div>
