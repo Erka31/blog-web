@@ -11,7 +11,8 @@ export const Parent = ({ children }) => {
             marginLeft: "15px",
             display: "flex",
             justifyContent: "space-between",
-            width: "1370px",
+            width: "100%",
+            marginBottom: "100px"
           }}>
           <button onClick={() => router.push("/")} className="buttons3">
             <h3>Home</h3>
